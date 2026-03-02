@@ -7,6 +7,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 关键：给 GITHUB_TOKEN 写入权限
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
@@ -31,7 +33,7 @@ jobs:
       - name: 部署到 GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          deploy_key: ${{ secrets.HEXO_FINAL_DEPLOY_KEY }}  # 使用新配置的 SSH 密钥
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # 使用内置令牌
           publish_dir: ./public
           publish_branch: main
           commit_message: '自动部署：${{ github.event.head_commit.message }}'
