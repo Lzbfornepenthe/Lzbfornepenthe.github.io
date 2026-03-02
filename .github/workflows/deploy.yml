@@ -1,11 +1,11 @@
-name: 自动部署
+name: 最终部署
 
 on:
   push:
     branches: [ hexo-source ]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: 检出代码
@@ -23,16 +23,15 @@ jobs:
           npm config set registry https://registry.npmmirror.com
           npm ci
 
-      - name: 生成网站
+      - name: 生成静态文件
         run: |
           npx hexo clean
           npx hexo generate
 
-      - name: 部署
+      - name: 部署到 GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          # 使用 GitHub 自动提供的令牌，无需任何额外配置
-          github_token: ${{ secrets.HEXO_DEPLOY_KEY }}
+          deploy_key: ${{ secrets.HEXO_FINAL_DEPLOY_KEY }}  # 使用新配置的 SSH 密钥
           publish_dir: ./public
           publish_branch: main
-          commit_message: '自动部署: ${{ github.sha }}'
+          commit_message: '自动部署：${{ github.event.head_commit.message }}'
