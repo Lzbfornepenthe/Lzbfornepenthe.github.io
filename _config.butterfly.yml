@@ -204,6 +204,8 @@ toc:
 post_copyright:
   enable: true
   decode: false
+  author: neoenthe
+  post_link: false
   author_href:
   license: CC BY-NC-SA 4.0
   license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
